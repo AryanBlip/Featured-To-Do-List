@@ -1,0 +1,13 @@
+Flask
+Flask-Login
+Flask-Bcrypt
+Flask-Migrate
+Flask-SQLAlchemy
+
+SQLAlchemy
+alembic
+
+python-dotenv
+pyngrok
+
+discord.py
