@@ -14,7 +14,7 @@ import os
 load_dotenv()
 discordToken = os.getenv('DISCORD_TOKEN')
 ngrokToken = os.getenv('NGROK_TOKEN')
-ownerId = int(os.getenv('OWNER_ID'))
+ownerId = int(os.getenv('OWNER_ID_OF_DEV'))
 
 ngrok.set_auth_token(ngrokToken)
 public_url = ngrok.connect(5000)
