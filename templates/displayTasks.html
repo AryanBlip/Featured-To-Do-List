@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}TO DO LIST{% endblock %}
+
+
+{% block content %}
+
+<h1 style="text-decoration: underline;">TODAY'S TASKS FOR {{ user.username | upper }} !</h1>
+
+<p>
+    <strong style="color: red;">MESSAGE FROM SERVER:</strong>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        
+                {% for message in messages %}
+                    <strong id="flashed-message">
+                        <br>
+                        {{message|safe}}
+
+                    </strong>
+                {% endfor %}
+    
+        {% endif %}
+    {% endwith %}
+
+    <br>
+    <strong>ADD A NEW TASK</strong>
+    <br>
+
+</p>
+
+<form action = "{{ url_for('addTask', username=user.username) }}" method="POST">
+    <input type = "text" name = "task" placeholder="TASK" required><br>
+    <input type="number" name="priority" placeholder="Priority (optional)"><br>
+    <textarea rows="4" cols="50" name="description" placeholder="Description (optional)"></textarea><br>
+    <input type = "submit" value = "ENTER">
+</form>
+
+{% if remainingTasks %}
+    <h1 style="text-decoration: underline;">REMAINING TASKS</h1>
+
+    {% for task in remainingTasks %}
+
+
+        <li style="padding-left: 20px;">
+
+                <a href="{{url_for('elaborateTask', tid=task.tid)}}" style="color: inherit; text-decoration: none; font-size: 30px;">{{task.task}}</a>
+                <input type="text-number" name="priority" value="Priority - {{ task.priority }}" readonly>
+
+                <br>
+
+                <form action="{{url_for('editTask', tid = task.tid)}}" method="GET">
+                    <button type="submit">EDIT TASK / PRIORITY / DESCRIPTION</button>
+                </form>
+
+                <form action="{{url_for('markWorkingOn', tid = task.tid)}}" method="POST">
+                    <button type="submit">WORKING ON TASK</button>
+                </form>
+
+
+                <form action="{{url_for('markComplete', tid = task.tid)}}" method="POST">
+                    <button type="submit">COMPLETE TASK</button>
+                </form>
+
+                <form action = "{{url_for('deleteTask', tid = task.tid)}}" method="POST">
+                    <button type = "submit">DELETE TASK</button>
+                </form>
+
+                <br>
+                
+        </li>
+    {% endfor %}
+{% endif %}
+
+<br>
+
+{% if workingOnTasks %}
+    <h1 style="text-decoration: underline;">WORKING ON</h1>
+
+    {% for task in workingOnTasks %}
+
+        <li style="padding-left: 20px;">
+            <a href="{{url_for('elaborateTask', tid=task.tid)}}" style="color: inherit; text-decoration: none; font-size: 30px;">{{task.task}}</a>
+            <input type="text-number" name="priority" value="Priority - {{ task.priority }}" readonly>
+
+            <form action="{{url_for('editTask', tid = task.tid)}}" method="GET">
+                <button type="submit">EDIT TASK / PRIORITY / DESCRIPTION</button>
+            </form>
+
+            <form action="{{url_for('markIncomplete', tid = task.tid)}}" method="POST">
+                <button type="submit">RETURN TO TASKS</button>
+            </form>
+
+            <form action="{{url_for('markComplete', tid = task.tid)}}" method="POST">
+                <button type="submit">COMPLETE TASK</button>
+            </form>
+
+            <form action = "{{url_for('deleteTask', tid = task.tid)}}" method="POST">
+                <button type = "submit">DELETE TASK</button>
+            </form>
+
+            <br>
+
+        </li>
+    {% endfor %}
+{% endif %}
+
+<br>
+
+{% if completedTasks %}
+
+    <h1 style="text-decoration: underline;">COMPLETED TASKS !</h1>
+    {% for task in completedTasks %}
+
+        <li style="padding-left: 20px;">
+            <a href="{{url_for('elaborateTask', tid=task.tid)}}" style="color: inherit; text-decoration: none; font-size: 30px;">{{task.task}}</a>
+
+            <form action="{{url_for('markIncomplete', tid = task.tid)}}" method="POST">
+                <button type="submit">MARK AS INCOMPLETE</button>
+            </form>
+
+            <form action="{{url_for('markWorkingOn', tid = task.tid)}}" method="POST">
+                <button type="submit">WORKING ON TASK</button>
+            </form>
+
+            <form action="{{url_for('deleteTask', tid = task.tid)}}" method="POST">
+                <button type="submit">REMOVE TASK</button>
+            </form>
+
+            <br>
+
+        </li>
+    {% endfor %}
+{% endif %}
+
+{% if completedTasks %}
+    <br>
+    <br>
+
+    <form action="{{url_for('clearCompletedTasks', username=user.username)}}" method="POST">
+        <button type="submit">CLEAR ALL COMPLETED TASKS</button>
+    </form>
+
+{% endif %}
+
+{% if workingOnTasks %}
+    
+    <br>
+
+    <form action="{{url_for('clearWorkingOnTasks', username=user.username)}}" method="POST">
+        <button type="submit">CLEAR ALL WORKING ON TASKS</button>
+    </form>
+
+    <br>
+
+{% endif %}
+
+{% if remainingTasks or workingOnTasks or completedTasks %}
+
+    <form action="{{url_for('clearAllTasks', username=user.username)}}" method="POST">
+        <button type="submit">CLEAR ALL TASKS</button>
+    </form>
+
+    <br>
+
+{% endif %}
+
+<br>
+
+<form action="{{url_for('homePage')}}" method="GET">
+    <button type="submit">RETURN TO HOME PAGE</button>
+</form>
+
+<br>
+
+<form action="{{url_for('logout')}}" method="GET">
+    <button type="submit">LOGOUT</button>
+</form>
+
+<script>
+    setTimeout(() => {
+        const flash = document.getElementById('flashed-message');
+        if (flash) {
+        flash.style.display = 'none';
+        }
+    }, 3000);
+</script>
+
+{% endblock %}
+

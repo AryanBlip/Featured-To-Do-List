@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.task }}{% endblock %}
+
+{% block content %}
+<h1>{{ task.task }}</h1>
+
+<h2>Priority</h2>
+<p class="task-priority">{{ task.priority }}</p>
+
+{% if task.description %}
+  <h2>Description</h2>
+  <textarea rows="4" cols="50" readonly>{{ task.description }}</textarea>
+{% endif %}
+
+<h2>Task Options</h2>
+<div class="task-options">
+  <form action="{{ url_for('editTask', tid=task.tid) }}" method="GET">
+    <button type="submit">Edit</button>
+  </form>
+  <form action="{{ url_for('markWorkingOn', tid=task.tid) }}" method="POST">
+    <button type="submit">Mark Working</button>
+  </form>
+  <form action="{{ url_for('markComplete', tid=task.tid) }}" method="POST">
+    <button type="submit">Complete</button>
+  </form>
+  <form action="{{ url_for('deleteTask', tid=task.tid) }}" method="POST">
+    <button type="submit">Delete</button>
+  </form>
+</div>
+
+<form action="{{ url_for('displayTasks', username=current_user.username) }}" method="GET">
+  <button type="submit">Return to Task List</button>
+</form>
+{% endblock %}

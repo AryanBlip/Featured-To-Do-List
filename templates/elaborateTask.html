@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}{{task.task}}{% endblock %}
+
+{% block content %}
+
+<span style="text-decoration: underline; font-size: 30px;">TASK</span><br><br>
+<span style="font-size: 30px;"> {{ task.task }}</span>
+
+<br>
+<br>
+
+<span style="text-decoration: underline; font-size: 30px;">PRIORITY</span><br><br>
+<span style="font-size: 30px;"> {{task.priority}}</span>
+
+<br>
+<br>
+
+{% if task.description %}
+    <span style="text-decoration: underline; font-size: 30px;">DESCRIPTION</span>
+
+    <br>
+    <br>
+    
+    <textarea rows="4" cols="50" name="description">{{ task.description }}</textarea>
+{% endif %}
+
+<br>
+<br>
+
+<span style="text-decoration: underline; font-size: 30px;">TASK OPTIONS</span>
+
+<br>
+<br>
+
+<form action="{{url_for('editTask', tid = task.tid)}}" method="GET">
+    <button type="submit">EDIT TASK / PRIORITY / DESCRIPTION</button>
+</form>
+
+<form action="{{url_for('markWorkingOn', tid = task.tid)}}" method="POST">
+    <button type="submit">WORKING ON TASK</button>
+</form>
+
+
+<form action="{{url_for('markComplete', tid = task.tid)}}" method="POST">
+    <button type="submit">COMPLETE TASK</button>
+</form>
+
+<form action = "{{url_for('deleteTask', tid = task.tid)}}" method="POST">
+    <button type = "submit">DELETE TASK</button>
+</form>
+
+<br>
+
+<form action="{{url_for('displayTasks', username=current_user.username)}}" method="GET">
+    <button type="submit">RETURN TO TASK LIST</button>
+</form>
+
+<br>
+
+{% endblock %}
