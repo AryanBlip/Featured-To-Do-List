@@ -1,4 +1,4 @@
-# TO DO LIST FEATURES
+# TO DO LIST
 🚀 **<u>Key Features:</u>**
 • Interactive Elaboration: Click any task to instantly reveal detailed notes, sub-tasks, or context without leaving the main view.
 
