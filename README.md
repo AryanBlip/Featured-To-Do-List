@@ -1,5 +1,6 @@
-# TO DO LIST
+# <u>TO DO LIST</u>
 🚀 **<u>Key Features:</u>**
+
 • Interactive Elaboration: Click any task to instantly reveal detailed notes, sub-tasks, or context without leaving the main view.
 
 • Dual-Template System: Toggle between original hand-coded designs and AI-optimized layouts.
